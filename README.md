@@ -16,3 +16,7 @@
 - 混入 mixin
 - 深入响应式原理
 - 不同构建版本的 Vue
+## Vue-Router 原理实现
+- VueRouter基础回顾
+- Hash 模式和 History 模式
+- 模拟实现自己的 Vue Router
