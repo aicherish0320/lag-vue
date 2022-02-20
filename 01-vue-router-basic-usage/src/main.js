@@ -10,4 +10,4 @@ const vm = new Vue({
   render: (h) => h(App)
 }).$mount('#app')
 
-console.log('vm >>> ', vm)
+// console.log('vm >>> ', vm)

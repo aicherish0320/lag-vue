@@ -22,10 +22,15 @@ const routes = [
   {
     path: '/photo',
     name: 'Photo',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Photo.vue')
+    component: () => import('../views/Photo.vue')
+  },
+  {
+    path: '/detail/:id',
+    name: 'Detail',
+    // 开启 props，会把 URL 中的参数传递给组件
+    // 在组件中通过 props 来接收 URL 参数
+    props: true,
+    component: () => import('../views/Detail.vue')
   }
 ]
 // 2. 创建 router 对象
