@@ -1,15 +1,24 @@
 <template>
-  <div>
-    这是 Index 页面
-    <br />
-    <router-link to="/login">Login</router-link> |
-    <router-link to="/detail/123">Detail</router-link>
+  <div class="home">
+    <div id="nav">
+      <router-link to="/">Index</router-link>
+    </div>
+    <button @click="replace">replace</button>
+    <button @click="goDetail">Detail</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Index'
+  name: 'Index',
+  methods: {
+    replace() {
+      this.$router.replace('/login')
+    },
+    goDetail() {
+      this.$router.push({ name: 'Detail', params: { id: 1 } })
+    }
+  }
 }
 </script>
 

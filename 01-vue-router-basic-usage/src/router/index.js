@@ -18,12 +18,12 @@ const routes = [
     component: Layout,
     children: [
       {
-        name: 'index',
+        name: 'Index',
         path: '',
         component: Index
       },
       {
-        name: 'detail',
+        name: 'Detail',
         path: 'detail/:id',
         props: true,
         component: () => import('@/views/Detail.vue')
