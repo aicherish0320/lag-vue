@@ -19,4 +19,11 @@ export default class VueRouter {
       }
     })
   }
+  constructor(options) {
+    this.options = options
+    this.routeMap = {}
+    this.data = _Vue.observable({
+      current: '/'
+    })
+  }
 }
