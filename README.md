@@ -109,3 +109,24 @@ Object.defineProperty(vm, 'msg', {
   }
 })
 ```
+
+### Vue3.x 响应式原理
+
+- Proxy
+- 直接监听对象，而非属性
+- ES6 中的新增，IE 不支持，性能由浏览器优化
+
+```js
+let data = {
+  msg: 'hello',
+  count: 0
+}
+const vm = new Proxy(data, {
+  get() {
+    return target[key]
+  },
+  set(target, key, newValue) {
+    target[key] = newValue
+  }
+})
+```
