@@ -52,3 +52,60 @@
 
 - 运行时版：不支持 template 模板，需要打包的时候提前编译
 - 完整版：包含运行时和编译器，体积比运行时版大 10K 左右，程序运行的时候把模板转换成 render 函数
+
+## Vue 响应式原理
+
+课程目标
+
+- 模拟一个最小版本的 Vue
+- 响应式原理在面试的常问问题
+- 学习别人优秀的经验，转换成自己的经验
+- 实际项目中出问题的原理层面的解决
+  - 给 Vue 实例新增一个成员是否是响应式的
+  - 给属性重新赋值成对象，是否是响应式的
+- 为学习 Vue 源码做铺垫
+
+## 数据驱动
+
+- 数据驱动
+  - 数据响应式、双向绑定、数据驱动
+  - 数据响应式
+    - 数据模型仅仅是普通的 JavaScript 对象，而当期们修改数据时，视图会进行更新，避免了繁琐的 DOM 操作，提高开发效率
+  - 双向绑定
+    - 数据改变，视图改变；视图改变，数据也随之改变
+    - 我们可以使用 `v-model` 在表单元素上创建数据绑定
+  - 数据驱动是 Vue 最独特的特性之一
+    - 开发过程中仅需要关注数据本身，不需要关心数据是如何渲染到视图的
+- 响应式的核心原理
+- 发布订阅模式和观察者模式
+
+```js
+// 模拟 Vue 中的 data 选项
+let data = {
+  msg: 'hello'
+}
+// 模拟 Vue 的实例
+let vm = {}
+// 数据劫持：当访问或者设置 vm 中的成员的时候，做一些干预操作
+Object.defineProperty(vm, 'msg', {
+  // 可枚举 （可遍历）
+  enumerable: true,
+  // 可配置（可以使用 delete 删除，可以通过 defineProperty 更新定义）
+  configurable: true,
+  // 当取值的时候执行
+  get() {
+    console.log('get: ', data.msg)
+    return data.msg
+  },
+  // 当设置值的时候执行
+  set(newValue) {
+    console.log('set: ', newValue)
+    if (newValue === data.msg) {
+      return
+    }
+    data.msg = newValue
+    // 数据更改，更新 DOM 的值
+    document.querySelector('#app').textContent = data.msg
+  }
+})
+```
