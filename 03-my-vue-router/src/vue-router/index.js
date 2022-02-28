@@ -15,6 +15,7 @@ export default class VueRouter {
       beforeCreate() {
         if (this.$options.router) {
           _Vue.prototype.router = this.$options.router
+          this.$options.router.init()
         }
       }
     })
@@ -24,6 +25,38 @@ export default class VueRouter {
     this.routeMap = {}
     this.data = _Vue.observable({
       current: '/'
+    })
+  }
+  init() {
+    this.createRouteMap()
+    this.initComponents(_Vue)
+  }
+  createRouteMap() {
+    // 遍历所有的路由规则，把路由规则解析成键值对的形式 存储到 routeMap 中
+    this.options.routes.forEach((route) => {
+      this.routeMap[route.path] = route.component
+    })
+  }
+  initComponents(Vue) {
+    Vue.component('router-link', {
+      props: {
+        to: String
+      },
+      template: `
+        <a :href="to">
+          <slot></slot>
+        </a>
+      `
+    })
+    Vue.component('router-view', {
+      props: {
+        to: String
+      },
+      template: `
+        <a :href="to">
+          <slot></slot>
+        </a>
+      `
     })
   }
 }
