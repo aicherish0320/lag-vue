@@ -13,6 +13,10 @@ class Observer {
     })
   }
   defineReactive(obj, key, val) {
+    const that = this
+    // 如果 val 是对象，把 val 内部的属性转换成响应式数据
+    this.walk(val)
+
     Object.defineProperty(obj, key, {
       enumerable: true,
       configurable: true,
@@ -24,6 +28,7 @@ class Observer {
           return
         }
         val = newValue
+        that.walk(newValue)
         // 发送通知
       }
     })
