@@ -25,7 +25,6 @@ class Compiler {
   }
   // 编译元素节点，处理指令
   compileElement(node) {
-    // console.log('元素 >>> ', node.nodeName)
     // console.log(node.attributes)
     // 遍历所有的属性节点
     Array.from(node.attributes).forEach((attr) => {
@@ -54,7 +53,6 @@ class Compiler {
   }
   // 编译文本节点，处理插值表达式
   compileText(node) {
-    // console.log('文本 >>> ', node.textContent)
     const reg = /\{\{(.+?)\}\}/
     const value = node.textContent
     if (reg.test(value)) {
