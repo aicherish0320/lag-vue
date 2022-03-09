@@ -192,3 +192,6 @@ const vm = new Proxy(data, {
 - 通知所有观察者
 
 ## Watcher （观察者）
+
+- 当数据变化触发依赖，dep 通知所有的 watcher 实例更新视图
+- 自身实例化的时候往 dep 对象中添加自己
