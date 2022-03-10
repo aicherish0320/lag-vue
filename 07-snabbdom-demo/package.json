@@ -1,0 +1,19 @@
+{
+  "name": "07-snabbdom-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.3.2"
+  },
+  "dependencies": {
+    "snabbdom": "^3.3.1"
+  }
+}
