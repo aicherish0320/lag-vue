@@ -141,6 +141,7 @@ export function init(
   }
 
   function createElm(vnode: VNode, insertedVnodeQueue: VNodeQueue): Node {
+    // 执行用户设置的 init 钩子函数
     let i: any;
     let data = vnode.data;
     if (data !== undefined) {
@@ -152,6 +153,7 @@ export function init(
     }
     const children = vnode.children;
     const sel = vnode.sel;
+    // 把 vnode 转换成真实 DOM 对象（没有渲染到页面）
     if (sel === "!") {
       if (isUndef(vnode.text)) {
         vnode.text = "";
@@ -210,6 +212,7 @@ export function init(
     } else {
       vnode.elm = api.createTextNode(vnode.text!);
     }
+    // 返回新创建的 DOM
     return vnode.elm;
   }
 
@@ -429,10 +432,14 @@ export function init(
     } else {
       elm = oldVnode.elm!;
       parent = api.parentNode(elm) as Node;
-
+      /*
+        createElm: 把VNode节点转换为对应的DOM元素，把DOM元素存储在VNode的elm属性上
+        并没有把创建的DOM元素挂载到页面上
+      */
       createElm(vnode, insertedVnodeQueue);
 
       if (parent !== null) {
+        // 把VNode属性上的elm，插入到页面上
         api.insertBefore(parent, vnode.elm!, api.nextSibling(elm));
         removeVnodes(parent, [oldVnode], 0, 0);
       }
