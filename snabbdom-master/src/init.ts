@@ -104,6 +104,7 @@ export function init(
     for (const module of modules) {
       const currentHook = module[hook];
       if (currentHook !== undefined) {
+        // cbs --> {create: [fn1, fn2], update: [fn1, fn2]}
         (cbs[hook] as any[]).push(currentHook);
       }
     }
@@ -407,7 +408,8 @@ export function init(
     }
     hook?.postpatch?.(oldVnode, vnode);
   }
-
+  // patch 函数经常被调用
+  // 因此在这里使用高阶函数（返回一个函数），缓存参数
   return function patch(
     oldVnode: VNode | Element | DocumentFragment,
     vnode: VNode
