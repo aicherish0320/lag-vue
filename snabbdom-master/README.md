@@ -31,3 +31,14 @@ function add(a: number, b: number, c: number) {
 add(1, 2);
 add(1, 2, 3);
 ```
+
+> 快捷键： **alt+<**、**F12**
+
+## patch 整体过程分析
+
+- patch(oldVnode, newVnode)
+- 把新节点中变化的内容渲染到真实 DOM，最后返回新节点作为下一次处理的旧节点
+- 对比新旧 VNode 是否是相同节点（节点的 key 和 sel 相同）
+- 如果不是相同节点，删除之前的内容，重新渲染
+- 如果是相同节点，再判断新的 VNode 是否有 text，如果有并且和 oldVnode 的 text 不同，直接更新文本内容
+- 如果新的 VNode 有 children，判断子节点是否有变化
