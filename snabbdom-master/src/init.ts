@@ -296,7 +296,7 @@ export function init(
     let idxInOld: number;
     let elmToMove: VNode;
     let before: any;
-
+    // 同级别节点比较
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
       if (oldStartVnode == null) {
         oldStartVnode = oldCh[++oldStartIdx]; // Vnode might have been moved left
@@ -306,6 +306,7 @@ export function init(
         newStartVnode = newCh[++newStartIdx];
       } else if (newEndVnode == null) {
         newEndVnode = newCh[--newEndIdx];
+        // 比较开始和结束的四种情况
       } else if (sameVnode(oldStartVnode, newStartVnode)) {
         patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);
         oldStartVnode = oldCh[++oldStartIdx];
@@ -331,6 +332,7 @@ export function init(
         oldEndVnode = oldCh[--oldEndIdx];
         newStartVnode = newCh[++newStartIdx];
       } else {
+        // 开始和结尾比较结束
         if (oldKeyToIdx === undefined) {
           oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
         }
@@ -359,7 +361,7 @@ export function init(
         newStartVnode = newCh[++newStartIdx];
       }
     }
-
+    // 循环节点的收尾工作
     if (newStartIdx <= newEndIdx) {
       before = newCh[newEndIdx + 1] == null ? null : newCh[newEndIdx + 1].elm;
       addVnodes(
@@ -381,6 +383,7 @@ export function init(
     vnode: VNode,
     insertedVnodeQueue: VNodeQueue
   ) {
+    // 第一个过程：触发 prepatch 和 update 钩子函数
     const hook = vnode.data?.hook;
     hook?.prepatch?.(oldVnode, vnode);
     const elm = (vnode.elm = oldVnode.elm)!;
@@ -392,6 +395,7 @@ export function init(
         cbs.update[i](oldVnode, vnode);
       vnode.data.hook?.update?.(oldVnode, vnode);
     }
+    // 第二个过程：真正比对新旧 vnode 差异的地方
     if (isUndef(vnode.text)) {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue);
@@ -409,6 +413,7 @@ export function init(
       }
       api.setTextContent(elm, vnode.text!);
     }
+    // 第三个过程：触发 postpatch 钩子函数
     hook?.postpatch?.(oldVnode, vnode);
   }
   // patch 函数经常被调用

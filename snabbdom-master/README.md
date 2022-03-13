@@ -42,3 +42,29 @@ add(1, 2, 3);
 - 如果不是相同节点，删除之前的内容，重新渲染
 - 如果是相同节点，再判断新的 VNode 是否有 text，如果有并且和 oldVnode 的 text 不同，直接更新文本内容
 - 如果新的 VNode 有 children，判断子节点是否有变化
+
+## Diff 算法
+
+- 虚拟 DOM 中的 diff 算法
+  - 查找两棵树没一个节点的差异
+- Snabbdom 根据 DOM 的特点对传统的 diff 算法做了优化
+  - DOM 操作时很少会跨级别操作节点
+  - 只是比较同级别的节点
+
+### 执行过程
+
+- 在对开始和结束节点比较的时候，总共有四种情况
+  - oldStartVnode/newStartVnode （旧开始节点/新开始节点）
+  - oldEndVnode/newEndVnode （旧结束节点/新结束节点）
+  - oldStartVnode/newEndVnode（旧开始节点/新结束节点）
+  - oldEndVnode/newStartVnode（旧结束节点/新开始节点）
+- 开始和结束节点
+  - 如果新旧开始节点是 sameVnode （key 和 sel 相同）
+    - 调用 patchVnode()对比和更新节点
+    - 把旧开始和新开始索引往后移动 oldStartIdx++/oldEndIdx++
+- 旧开始节点/新结束节点
+  - 调用 patchVnode() 对比和更新节点
+  - 把 oldStartVnode 对应的 DOM 元素，移动到右边，更新索引
+- 旧结束节点/新开始节点
+  - 调用 patchVnode() 对比和更新节点
+  - 把 oldEndVnode 对应的 DOM 元素，移动到左边，更新索引
