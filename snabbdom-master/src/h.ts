@@ -30,7 +30,7 @@ export function addNS(
     }
   }
 }
-
+// 定义函数的重载
 export function h(sel: string): VNode;
 export function h(sel: string, data: VNodeData | null): VNode;
 export function h(sel: string, children: VNodeChildren): VNode;
@@ -39,27 +39,37 @@ export function h(
   data: VNodeData | null,
   children: VNodeChildren
 ): VNode;
+// 函数的实现
 export function h(sel: any, b?: any, c?: any): VNode {
   let data: VNodeData = {};
   let children: any;
   let text: any;
   let i: number;
+  // 处理参数，实现重载的机制
   if (c !== undefined) {
+    // 处理三个参数的情况
+    // sel、data、children/text
     if (b !== null) {
       data = b;
     }
     if (is.array(c)) {
       children = c;
+      // 如果 c 是字符串或者数字
     } else if (is.primitive(c)) {
       text = c.toString();
+      // 如果 c 是 VNode
     } else if (c && c.sel) {
       children = [c];
     }
   } else if (b !== undefined && b !== null) {
+    // 处理两个参数的情况
+    // 如果 b 是数组
     if (is.array(b)) {
       children = b;
+      // 如果 b 是字符串或者数字
     } else if (is.primitive(b)) {
       text = b.toString();
+      // 如果 b 是 VNode
     } else if (b && b.sel) {
       children = [b];
     } else {
@@ -67,7 +77,9 @@ export function h(sel: any, b?: any, c?: any): VNode {
     }
   }
   if (children !== undefined) {
+    // 处理 children 中的原始值（string/number）
     for (i = 0; i < children.length; ++i) {
+      // 如果 child 是 string/number，创建文本节点
       if (is.primitive(children[i]))
         children[i] = vnode(
           undefined,
@@ -84,8 +96,10 @@ export function h(sel: any, b?: any, c?: any): VNode {
     sel[2] === "g" &&
     (sel.length === 3 || sel[3] === "." || sel[3] === "#")
   ) {
+    // 如果是 svg ，添加命名空间
     addNS(data, children, sel);
   }
+  // 返回 VNode
   return vnode(sel, data, children, text, undefined);
 }
 
